@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="welcome_img">
+        </div>
+
+        <form id="login" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <h2>Login</h2>
+          
+            <div>
+                <input type="text" name="username" placeholder="Email" required>
+            </div>
+
+            <div>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit">Login</button>
+              {% if form.non_field_errors%}
+                <p class ="errormessage">username or password or both could be wrong</p>
+              {%endif%}
+        </form>
+    </div>
+
+   
+</body>
+</html>
