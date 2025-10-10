@@ -74,13 +74,8 @@ button {
 
 /*  */
 .welcome_img {
-    /* background: white; */
     flex-basis: 60%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 35px;
     background-image: url("../images/side1.png");
     background-size: cover;
     background-position: center;
@@ -92,7 +87,8 @@ button {
      font-size: large;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 700px) 
+{
     .container {
         flex-direction: column;
         margin: 0;
@@ -104,15 +100,23 @@ button {
         margin: 0;
         padding: 20px;
         max-width: unset;
+       
+    }
+    .welcome_img{
+        display: flex;
+        flex-direction: row;
         background-image: url("../images/side1.png");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-       
+        min-height: 200px;
+}
     }
 
     .errormessage{
      color: red;
      font-size: large;
+
+     
 }
-}
+
