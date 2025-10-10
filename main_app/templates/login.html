@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 </head>
 <body>
     <div class="container">
@@ -25,7 +27,7 @@
 
             <button type="submit">Login</button>
               {% if form.non_field_errors%}
-                <p class ="errormessage">username or password or both could be wrong</p>
+                <p class ="errormessage">invalid username or password. please try again</p>
               {%endif%}
         </form>
     </div>
