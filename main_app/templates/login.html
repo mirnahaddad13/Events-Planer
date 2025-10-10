@@ -1,37 +1,32 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="{% static 'css/login.css' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}
 
-</head>
-<body>
-    <div class="container">
-        <div class="welcome_img">
-        </div>
+{% block content %}
+<div class="auth-shell">
+  <div class="container">
+    <div class="welcome_img"></div>
 
-        <form id="login" method="post" action="{% url 'login' %}">
-            {% csrf_token %}
-            <h2>Login</h2>
-          
-            <div>
-                <input type="text" name="username" placeholder="Email" required>
-            </div>
+    <form id="login" method="post" action="{% url 'login' %}">
+      {% csrf_token %}
+      <h2>Login</h2>
 
-            <div>
-                <input type="password" name="password" placeholder="Password" required>
-            </div>
+      <div>
+        <input type="text" name="username" placeholder="Email" required>
+      </div>
 
-            <button type="submit">Login</button>
-              {% if form.non_field_errors%}
-                <p class ="errormessage">invalid username or password. please try again</p>
-              {%endif%}
-        </form>
-    </div>
+      <div>
+        <input type="password" name="password" placeholder="Password" required>
+      </div>
 
-   
-</body>
-</html>
+      <button type="submit">Login</button>
+      {% if form.non_field_errors %}
+        <p class="errormessage">invalid username or password. please try again</p>
+      {% endif %}
+    </form>
+  </div>
+</div>
+{% endblock %}
