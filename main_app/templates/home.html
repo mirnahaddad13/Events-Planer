@@ -1,13 +1,27 @@
-{% extends 'base.html' %} {% load static %} {% block head %}
-<link
-  rel="stylesheet"
-  href="{% static 'css/home.css' %}"
-/>
-{% endblock %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 
+{% block content %}
 
-
-
+<section class="hero" style="background-image: url('{% static 'images/table-candles.png' %}');">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>Plan. Create. Celebrate.</h1>
+    <p>Your moments, beautifully organized.</p>
+    {% if not user.is_authenticated %}
+      <a href="{% url 'signup' %}" class="btn">Get Started</a>
+      <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    {% else %}
+      <div class="dashboard-links">
+        <a href="{% url 'events-list' %}" class="btn">View Events</a>
+        <a href="#" class="btn disabled">Create Event</a> <!-- placeholder until create_event exists -->
+      </div>
+    {% endif %}
+  </div>
+</section>
 
 {% endblock %}
