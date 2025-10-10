@@ -1,0 +1,139 @@
+@import url('variables.css');
+
+body {
+  background-color: var(--background-dark);
+}
+
+.auth-container {
+  min-height: 90vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 20px;
+  align-items: center;
+}
+
+.welcome_img img {
+  width: 400px;
+  height: 600px;
+  object-fit: contain;
+}
+
+.form-container {
+  background: #fff;
+  padding: 24px;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.title {
+  font-weight: bold;
+  color: var(--primary-color);
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 33px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.label-title {
+  font-size: 16px;
+  line-height: 16px;
+}
+
+tr {
+  display: block;
+  margin-bottom: 22px;
+}
+
+td {
+  width: 100%;
+  display: flex;
+  flex-direction: column; 
+  margin-top: 8px;
+}
+
+td label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--primary-color);
+}
+
+input {
+  width: 100%;
+  font-size: 16px;
+  height: 44px;
+  padding: 8px;
+  border: 1px solid #d3cfcf;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: inset -2px -2px 6px #f0f0f0, inset 2px 2px 6px #d3cfcf;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 6px rgba(39, 75, 138, 0.5);
+}
+
+button {
+    font-size: 16px;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    border: none;
+    color: white;
+    background: var(--button-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s all;
+}
+
+button:hover {
+    background: var(--button-hover-color);
+}
+
+.errormessage {
+  color: var(--error-color);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.tip-box {
+  margin-top: 10px;
+  font-style: italic;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* For Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+@media (max-width: 1024.9px) {
+  .welcome_img {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .title{
+    font-size: 28px;
+    line-height: 33px;
+  }
+  .label-title {
+    font-size: 14px;
+  }
+  .form-container {
+    padding: 16px;
+  }
+}

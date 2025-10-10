@@ -1,0 +1,9 @@
+:root {
+  --primary-color: #011342;
+  --secondary-color: #4c80d4;
+  --input-focus: #274b8a;
+  --background-dark: rgb(1 19 66 / 90%);
+  --error-color: #d0021b;
+  --button-color: linear-gradient(to right, #2086a5, #ec5369);
+  --button-hover-color : linear-gradient(to right, #231e27, #8CA6DB);
+}

@@ -1,18 +1,18 @@
-
-* {
-    font-family: 'Cairo', sans-serif;
-}
+@import url('variables.css');
 
 body {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #B993D6;
+     background-color: var(--background-dark);
+}
+
+.auth-shell {
+    min-height: 90vh;
+    display: grid;
+    place-items: center;
+    padding: 16px;
 }
 
 .container {
-    width: 80%;
+    width: 100%;
     max-width: 700px;
     justify-content: space-between;
     display: flex;
@@ -31,19 +31,20 @@ form {
     text-align: center;
 }
 
-    form > div {
-        display: flex;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 4px #d3cfcf;
-        border-radius: 10px;
-        overflow: hidden;
-    }
+form>div {
+    display: flex;
+    margin-bottom: 16px;
+    box-shadow: -2px -2px 12px 0px #d3cfcf;
+    border-radius: 10px;
+    overflow: hidden;
+}
 
 
 #login input {
     flex: 4;
-    font-size: 15px;
-    height: 25px;
+    font-size: 16px;
+    line-height: 16px;
+    height: 44px;
     outline: none;
     padding: 8px;
     border: none;
@@ -52,27 +53,27 @@ form {
 
 h2 {
     text-align: center;
-    font-weight: 300;
+    font-weight: bold;
 }
 
 button {
-    font-size: 15px;
-    width: 70%;
+    font-size: 16px;
+    width: 100%;
     padding: 10px;
     text-align: center;
     border: none;
     color: white;
-    background: linear-gradient(to right, #B993D6, #8CA6DB);
+    background: var(--button-color);
     border-radius: 10px;
     cursor: pointer;
     transition: 0.2s all;
+    max-width: 200px;
 }
 
-    button:hover {
-        background: linear-gradient(to right, #231e27, #8CA6DB);
-    }
+button:hover {
+    background: var(--button-hover-color);
+}
 
-/*  */
 .welcome_img {
     flex-basis: 60%;
     display: flex;
@@ -81,28 +82,21 @@ button {
     background-position: center;
     background-repeat: no-repeat;
 }
-.errormessage{
 
-     color: red;
-     font-size: large;
-}
-
-@media (max-width: 700px) 
-{
+@media (max-width: 700px) {
     .container {
         flex-direction: column;
         margin: 0;
-        padding-top: 15px;
-         border: #231e27 2px solid;
     }
 
     form {
         margin: 0;
         padding: 20px;
         max-width: unset;
-       
+
     }
-    .welcome_img{
+
+    .welcome_img {
         display: flex;
         flex-direction: row;
         background-image: url("../images/side1.png");
@@ -110,13 +104,10 @@ button {
         background-position: center;
         background-repeat: no-repeat;
         min-height: 200px;
-}
     }
-
-    .errormessage{
-     color: red;
-     font-size: large;
-
-     
 }
 
+.errormessage {
+    color: var(--error-color);
+    font-weight: bold;
+}

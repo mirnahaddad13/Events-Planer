@@ -1,39 +1,46 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/signup.css' %}" />
 {% endblock %}
+
 {% block content %}
-<div class="page-header"><h1>Sign Up</h1></div>
+  <div class="auth-container">
+    <div class="welcome_img">
+      <img src="{% static "images/calender-greeting.png" %}" alt="welcome image">
+    </div>
+    <form action="" method="post" class="form-container" id="signup" autocomplete="off">
+      {% csrf_token %}
+      <h2 class="title">Sign Up</h2>
+      <table>
+        {% for field in form %}
+          <tr>
+            <th class="label-title">{{ field.label_tag }}</th>
+            <td>
+              {{ field }}
 
-{# Non-field errors (e.g., password mismatch) #}
-{% if form.non_field_errors %}
-  <div class="red-text">
-    {% for err in form.non_field_errors %}
-      <p>{{ err }}</p>
-    {% endfor %}
-  </div>
-{% endif %}
+              {% if field.help_text %}
+                <div class="tip-box">
+                  <div class="tip-body">{{ field.help_text|safe }}</div>
+                </div>
+              {% endif %}
 
-<form action="" method="post" class="form-container" autocomplete="off">
-  {% csrf_token %}
-
-  {# Field-by-field rendering to guarantee errors show #}
-  <table>
-    {% for field in form %}
-      <tr>
-        <th>{{ field.label_tag }}</th>
-        <td>
-          {{ field }}
-          {% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}
-          {% for err in field.errors %}
-            <div class="red-text">{{ err }}</div>
+              {% for err in field.errors %}
+                <div class="errormessage">{{ err }}</div>
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+      {% if form.non_field_errors %}
+        <div class="errormessage">
+          {% for err in form.non_field_errors %}
+            <p>{{ err }}</p>
           {% endfor %}
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
-
-  <button type="submit" class="btn submit">Submit!</button>
-</form>
+        </div>
+      {% endif %}
+      <button type="submit">Submit</button>
+    </form>
+  </div>
 {% endblock %}
