@@ -1,11 +1,7 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block head %}
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block extra_css %}<link
+  rel="stylesheet"
+  href="{% static 'css/login.css' %}"
+/>{% endblock %} {% block content %}
 <div class="auth-shell">
   <div class="container">
     <div class="welcome_img"></div>
@@ -15,16 +11,21 @@
       <h2>Login</h2>
 
       <div>
-        <input type="text" name="username" placeholder="Email" required>
+        <input type="text" name="username" placeholder="Email" required />
       </div>
 
       <div>
-        <input type="password" name="password" placeholder="Password" required>
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
       </div>
 
       <button type="submit">Login</button>
       {% if form.non_field_errors %}
-        <p class="errormessage">invalid username or password. please try again</p>
+      <p class="errormessage">invalid username or password. please try again</p>
       {% endif %}
     </form>
   </div>
