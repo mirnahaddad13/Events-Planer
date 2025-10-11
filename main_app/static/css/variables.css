@@ -1,9 +1,39 @@
-:root {
-  --primary-color: #011342;
-  --secondary-color: #4c80d4;
-  --input-focus: #274b8a;
-  --background-dark: rgb(1 19 66 / 90%);
+:root{
+  --olive: #4b5320;
+  --olive-900: #2d3314;
+  --gold: #d4af37;
+  --gold-300: #e6c77f;
+  --black: #1a1a1a;
+  --ink: #2a2a2a;
+  --paper: #faf9f7;
+  --white: #ffffff;
   --error-color: #d0021b;
-  --button-color: linear-gradient(to right, #2086a5, #ec5369);
-  --button-hover-color : linear-gradient(to right, #231e27, #8CA6DB);
+
+  --stroke: rgba(0,0,0,.08);
+  --shadow-strong: 0 6px 24px rgba(0,0,0,.18), 0 2px 8px rgba(0,0,0,.08);
+
+  --header-gradient: linear-gradient(90deg, #0f0f0f, var(--olive) 52%, var(--gold));
+  --cta-gradient: linear-gradient(90deg, var(--olive), var(--gold));
+  --cta-hover-gradient: linear-gradient(90deg, var(--olive-900), #b99725);
+
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+}
+
+.btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  padding: 8px 16px; border-radius: 8px; border:0;
+  background: var(--cta-gradient); color:#fff; font-weight:600;
+  text-decoration:none; cursor:pointer;
+  transition: background .25s ease, transform .2s ease, box-shadow .2s ease;
+  box-shadow: var(--shadow-strong);
+}
+.btn:hover { background: var(--cta-hover-gradient); transform: translateY(-2px); }
+
+.input-like {
+  border:1px solid var(--stroke); border-radius: 6px; padding: 10px 12px;
+  background:#f6f7f8; transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.input-like:focus {
+  outline:none; border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(212,175,55,.18); background:#fff;
 }

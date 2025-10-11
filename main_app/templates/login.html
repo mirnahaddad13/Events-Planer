@@ -1,33 +1,23 @@
-{% extends 'base.html' %} {% load static %} {% block extra_css %}<link
-  rel="stylesheet"
-  href="{% static 'css/login.css' %}"
-/>{% endblock %} {% block content %}
-<div class="auth-shell">
-  <div class="container">
-    <div class="welcome_img"></div>
+{% extends 'base.html' %}
+{% load static %}
 
-    <form id="login" method="post" action="{% url 'login' %}">
-      {% csrf_token %}
-      <h2>Login</h2>
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
 
-      <div>
-        <input type="text" name="username" placeholder="Email" required />
-      </div>
-
-      <div>
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
-      </div>
-
-      <button type="submit">Login</button>
-      {% if form.non_field_errors %}
-      <p class="errormessage">invalid username or password. please try again</p>
-      {% endif %}
-    </form>
-  </div>
-</div>
+{% block content %}
+<section class="auth-stage">
+  <form id="login" method="post" action="{% url 'login' %}" class="login-card">
+    {% csrf_token %}
+    <h2 class="title">Welcome Back</h2>
+    <p class="subtitle">Log in to continue planning your event</p>
+    <div class="field"><input type="text" name="username" placeholder="Email" required></div>
+    <div class="field"><input type="password" name="password" placeholder="Password" required></div>
+    <button type="submit" class="btn">Login</button>
+    {% if form.non_field_errors %}
+    <p class="errormessage">Invalid username or password. Please try again.</p>
+    {% endif %}
+    <p class="signup">New here? <a href="{% url 'signup' %}">Create your account</a></p>
+  </form>
+</section>
 {% endblock %}
