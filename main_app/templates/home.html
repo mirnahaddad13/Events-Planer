@@ -3,6 +3,15 @@
   href="{% static 'css/home.css' %}"
 />{% endblock %} {% block content %}
 
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
 <section
   class="hero"
   style="background-image: url('{% static 'images/table-candles.png' %}')"
@@ -22,6 +31,51 @@
     </div>
     {% endif %}
   </div>
+  <div class="hero-image">
+    <img src="{% static 'images/sparles.png' %}" alt="Event Inspiration">
+  </div>
+</section>
+{% endblock %}
+
+  </div>
 </section>
 
+<section class="gallery">
+  <h2>Explore Event Styles</h2>
+  <div class="gallery-grid">
+    <div class="event-card">
+      <img src="{% static 'images/chair.jpg' %}" alt="Elegant Seating">
+    </div>
+    <div class="event-card">
+      <img src="{% static 'images/party.jpg' %}" alt="Magical Lights">
+    </div>
+    <div class="event-card">
+      <img src="{% static 'images/candles.jpg' %}" alt="Candlelight Setup">
+    </div>
+  </div>
+</section>
+<section class="reviews">
+  <h2>What People Say</h2>
+  <div class="reviews-container">
+    <div class="review">
+      <p>⭐️⭐️⭐️⭐️⭐️ “Everything was so easy to plan — I loved it!”</p>
+    </div>
+    <div class="review">
+      <p>⭐️⭐️⭐️⭐️ “The design and organization tools are amazing.”</p>
+    </div>
+    <div class="review">
+      <p>⭐️⭐️⭐️⭐️⭐️ “I planned my engagement party through this site!”</p>
+    </div>
+  </div>
+</section>
+<script>
+function handleGetStarted() {
+  const isAuthenticated = "{{ request.user.is_authenticated|yesno:'true,false' }}" === "true";
+  if (isAuthenticated) {
+    window.location.href = "#";
+  } else {
+    window.location.href = "{% url 'login' %}";
+  }
+}
+</script>
 {% endblock %}
