@@ -3,21 +3,15 @@
   href="{% static 'css/home.css' %}"
 />{% endblock %} {% block content %}
 
-<<<<<<< HEAD
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block content %}
-<section class="hero">
-  <div class="hero-content">
-    <h1>Plan. Create. Celebrate.</h1>
-    <p>Your moments, beautifully organized.</p>
-    <button class="btn" onclick="handleGetStarted()">Get Started</button>
-  </div>
-  <div class="hero-image">
-    <img src="{% static 'images/sparles.png' %}" alt="Event Inspiration">
-=======
 <section
   class="hero"
   style="background-image: url('{% static 'images/table-candles.png' %}')"
@@ -36,7 +30,13 @@
       <!-- placeholder until create_event exists -->
     </div>
     {% endif %}
->>>>>>> origin/main
+  </div>
+  <div class="hero-image">
+    <img src="{% static 'images/sparles.png' %}" alt="Event Inspiration">
+  </div>
+</section>
+{% endblock %}
+
   </div>
 </section>
 
