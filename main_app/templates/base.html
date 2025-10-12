@@ -24,6 +24,9 @@
           </a>
         </div>
         {% if user.is_authenticated %}
+          {% comment %} <div class="centered-items">
+             <a href="{% url 'login' %}">Our Events</a>
+          </div> {% endcomment %}
           <div class="nav-left">
             <form id="logout-form" method="post" action="{% url 'logout' %}">
               {% csrf_token %}
@@ -31,6 +34,9 @@
             </form>
           </div>
         {% else %}
+          {% comment %} <div class="centered-items">
+             <a href="{% url 'login' %}">Our Events</a>
+          </div> {% endcomment %}
           <div class="nav-right">
             <a href="{% url 'login' %}">Login</a>
           </div>
