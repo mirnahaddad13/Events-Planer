@@ -4,7 +4,7 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render,redirect
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, EventForm
 from .models import Event
 from datetime import timedelta
 from django.utils import timezone
@@ -60,8 +60,9 @@ def event_details(request, event_id):
 
 class EventCreate(LoginRequiredMixin,CreateView):
   model = Event
-  fields = ['title','description','location','start_date','end_date','attendees_count','theme_colors','theme_images']
-  
+  form_class = EventForm
+  template_name = 'main_app/event_form.html'
+  success_url = '/events/'
   def form_valid(self, form):
         now = timezone.now()
         start = form.cleaned_data.get('start_date')
@@ -89,7 +90,8 @@ class EventCreate(LoginRequiredMixin,CreateView):
 
 class EventUpdate(LoginRequiredMixin, UpdateView):
     model = Event
-    fields = ['title','description','location','start_date','end_date','attendees_count','theme_colors','theme_images']
+    form_class = EventForm
+
     def get_queryset(self):
         # Only allow the owner to edit
         return Event.objects.filter(user=self.request.user)
