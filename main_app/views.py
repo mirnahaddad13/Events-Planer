@@ -45,7 +45,7 @@ class CustomLoginView(LoginView):
 
 @login_required
 def event_index(request):
-  events = Event.objects.filter(user=request.user).order_by('-created_date')
+  events = Event.objects.filter(user=request.user).order_by('start_date')
   return render(request, 'events/index.html', {'events': events})
 
 @login_required

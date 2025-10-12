@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/my-events.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="events-page">
+    <header class="events-header">
+      <h1 class="page-title">My Events</h1>
+      <a href="{% url 'event-create' %}" class="btn btn-primary">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </span>
+        Create Event
+      </a>
+    </header>
+
+    {% if events %}
+      <div class="events-grid">
+        {% for e in events %}
+          <article class="event-card">
+            <a class="event-card-link" href="{% url 'event-details' e.pk %}">
+              <div class="event-media">
+                <div class="calendar">
+                  <div class="calendar-bar"></div>
+                  <div class="calendar-body">
+                    <div class="calendar-date">
+                      {{ e.start_date|date:'d' }}
+                      <span>{{ e.start_date|date:'M' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="event-body">
+                <h3 class="event-title">{{ e.title }}</h3>
+
+                <div class="event-meta">
+                  <div class="meta-item">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M8 7V3m8 4V3M4 11h16M7 21h10a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                    <span>
+                      {{ e.start_date|date:'M d, Y h:i A' }}
+                      {% if e.end_date %}
+                        – {{ e.end_date|date:'M d, Y h:i A' }}
+                      {% endif %}
+                    </span>
+                  </div>
+
+                  {% if e.location %}
+                    <div class="meta-item">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 21s-7-5.686-7-11a7 7 0 1 1 14 0c0 5.314-7 11-7 11Z" fill="none" stroke="currentColor" stroke-width="2" />
+                        <circle cx="12" cy="10" r="2.5" fill="currentColor" />
+                      </svg>
+                      <span>{{ e.location }}</span>
+                    </div>
+                  {% endif %}
+
+                  {% if e.attendees_count %}
+                    <div class="meta-item">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0-8 0 4 4 0 0 0 8 0Zm7 10v-2a4 4 0 0 0-3-3.874M17 3a4 4 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                      </svg>
+                      <span>{{ e.attendees_count }} attending</span>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </a>
+
+            <div class="event-actions">
+              <a href="{% url 'event-update' e.pk %}" class="btn btn-ghost">Edit</a>
+              <a href="{% url 'event-delete' e.pk %}" class="btn btn-danger">Delete</a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <section class="empty-state">
+        <div class="empty-art" aria-hidden="true">
+          <svg viewBox="0 0 64 64">
+            <path d="M10 50l14-4 22-22-18 24-18 2z" fill="currentColor" opacity=".15" />
+            <path d="M46 14l4 4M42 18l4 4M38 22l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            <path d="M8 52l16-4 24-24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <h3>No events yet</h3>
+        <p>You haven’t reserved any events with us yet. Create your first event to get started.</p>
+        <a href="{% url 'event-create' %}" class="btn btn-primary">
+          <span class="icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </span>
+          Create an Event
+        </a>
+      </section>
+    {% endif %}
+  </div>
+{% endblock %}
