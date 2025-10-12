@@ -11,6 +11,11 @@
       {% csrf_token %}
       <h2 class="title">Sign Up</h2>
 
+      <p class="inline-note">
+        Already have an account?
+        <a href="{% url 'login' %}" class="inline-note-link">Log in</a>
+      </p>
+
       <table>
         {% for field in form %}
           <tr>

@@ -170,6 +170,28 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.inline-note {
+  margin: 8px 0 18px;
+  padding: 10px 12px;
+  background: #f9f7ef;
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+
+.inline-note-link {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--olive);
+  margin-left: 6px;
+}
+
+.inline-note-link:hover {
+  text-decoration: underline;
+}
+
+
 @media (max-width: 900px) {
 
   .form-container::before,
