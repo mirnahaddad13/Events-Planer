@@ -17,6 +17,14 @@
   --cta-hover-gradient: linear-gradient(90deg, var(--olive-900), #b99725);
 
   --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+
+  --surface: var(--paper);
+  --surface-2: #f0eee9;
+  --card: #ffffff;
+  --border: #e0decc;
+  --text: var(--ink);
+  --muted: #5c5c5c;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .btn {

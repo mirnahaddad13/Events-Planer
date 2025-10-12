@@ -45,7 +45,7 @@ class CustomLoginView(LoginView):
 
 @login_required
 def event_index(request):
-  events = Event.objects.filter(user=request.user).order_by('-created_date')
+  events = Event.objects.filter(user=request.user).order_by('start_date')
   return render(request, 'events/index.html', {'events': events})
 
 @login_required
@@ -61,39 +61,80 @@ def event_details(request, event_id):
 class EventCreate(LoginRequiredMixin,CreateView):
   model = Event
   fields = ['title','description','location','start_date','end_date','attendees_count','theme_colors','theme_images']
+  
   def form_valid(self, form):
-    start = form.cleaned_data.get('start_date')
-    if start and start < timezone.now() + timedelta(hours=5):
-        form.add_error('start_date', 'You must reserve at least 5 hours in advance.')
-        return self.form_invalid(form)
-    form.instance.user = self.request.user
-    return super().form_valid(form)
+        now = timezone.now()
+        start = form.cleaned_data.get('start_date')
+        end = form.cleaned_data.get('end_date')
+
+        # Must reserve at least 5 hours in advance
+        if start and start < now + timedelta(hours=5):
+            form.add_error('start_date', 'You must reserve at least 5 hours in advance.')
+
+        # No past dates at all
+        if start and start < now:
+            form.add_error('start_date', 'Start date/time cannot be in the past.')
+        if end and end < now:
+            form.add_error('end_date', 'End date/time cannot be in the past.')
+
+        # End must be after start
+        if start and end and end <= start:
+            form.add_error('end_date', 'End date/time must be after the start date/time.')
+
+        if form.errors:
+            return self.form_invalid(form)
+
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class EventUpdate(LoginRequiredMixin, UpdateView):
     model = Event
     fields = ['title','description','location','start_date','end_date','attendees_count','theme_colors','theme_images']
     def get_queryset(self):
         # Only allow the owner to edit
-         return Event.objects.filter(user=self.request.user)
-    
+        return Event.objects.filter(user=self.request.user)
+
     def dispatch(self, request, *args, **kwargs):
         event = self.get_object()
-        # Block update if event starts within 1 day
+        # Block update if current event starts within 1 day
         if event.start_date < timezone.now() + timedelta(days=1):
             messages.error(request, 'You cannot edit this event less than 1 day before it starts.')
             return redirect('event-details', event_id=event.pk)
         return super().dispatch(request, *args, **kwargs)
-    
+
     def form_valid(self, form):
+        now = timezone.now()
+        start = form.cleaned_data.get('start_date')
+        end = form.cleaned_data.get('end_date')
+
+        # No past dates
+        if start and start < now:
+            form.add_error('start_date', 'Start date/time cannot be in the past.')
+        if end and end < now:
+            form.add_error('end_date', 'End date/time cannot be in the past.')
+
+        # Maintain the 1-day rule even for the new proposed start
+        if start and start < now + timedelta(days=1):
+            form.add_error('start_date', 'You cannot set the start time to less than 1 day from now.')
+
+        # End must be after start
+        if start and end and end <= start:
+            form.add_error('end_date', 'End date/time must be after the start date/time.')
+
+        if form.errors:
+            return self.form_invalid(form)
+
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 class EventDelete(LoginRequiredMixin, DeleteView):
     model = Event
     success_url = '/home'
+
     def get_queryset(self):
         # Only allow the owner to delete
         return Event.objects.filter(user=self.request.user)
+
     def dispatch(self, request, *args, **kwargs):
         event = self.get_object()
         # Block delete if event starts within 1 day
