@@ -10,6 +10,11 @@ from datetime import timedelta
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.views.generic import DetailView
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect
+
+
 
 
 User = get_user_model()
@@ -31,9 +36,6 @@ def signup(request):
         form = CustomUserCreationForm()
 
     return render(request, 'signup.html', {'form': form})
-from django.contrib.auth.views import LoginView
-from django.shortcuts import redirect
-
 class CustomLoginView(LoginView):
     template_name = 'login.html'
 
@@ -48,16 +50,18 @@ def event_index(request):
   events = Event.objects.filter(user=request.user).order_by('start_date')
   return render(request, 'events/index.html', {'events': events})
 
-@login_required
-def event_details(request, event_id):
-  event = Event.objects.get(id=event_id)
-  user_dosent_have_events = User.objects.exclude(id=event.user_id)
+class EventDetail(LoginRequiredMixin, DetailView):
+    model = Event
+    template_name = 'events/details.html'
 
-  return render(request, 'events/details.html', {
-    'event': event,
-    'user':user_dosent_have_events
-  })
-
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff or user.is_superuser:
+            # Admins can view all events
+            return Event.objects.all()
+        # Regular users only see their own events
+        return Event.objects.filter(user=user)
+    
 class EventCreate(LoginRequiredMixin,CreateView):
   model = Event
   form_class = EventForm

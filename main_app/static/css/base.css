@@ -116,7 +116,7 @@ body {
   margin-right: 10px;
 }
 
-.btn {
+.base-btn {
   background: var(--cta-gradient);
   color: #fff;
   font-weight: 700;
@@ -132,23 +132,24 @@ body {
 }
 
 .login-btn {
-  height: unset!important;
+  height: unset !important;
 }
 
-.btn:hover {
+.base-btn:hover {
   transform: translateY(-1px);
   background: var(--cta-hover-gradient);
 }
 
-.btn-ghost {
+.base-btn-ghost {
   background: rgba(255, 255, 255, .12);
   border: 1px solid rgba(255, 255, 255, .28);
 }
 
-.btn-sm {
+.base-btn-sm {
   padding: 6px 10px;
   border-radius: 8px;
   font-weight: 600;
+  margin: 0 !important;
 }
 
 .w-full {
@@ -335,7 +336,7 @@ main.page {
     font-size: 20px;
   }
 
-  .btn {
+  .base-btn {
     padding: 7px 12px;
   }
 }

@@ -13,7 +13,7 @@ urlpatterns = [
      path('accounts/login/', views.CustomLoginView.as_view(), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('events/', views.event_index, name='my-events'),
-    path('events/<int:event_id>/', views.event_details, name='event-details'),
+    path('events/<int:pk>/', views.EventDetail.as_view(), name='event-details'),
      # this by default will go templates/main_app/event_form.html
     path('events/create/', views.EventCreate.as_view(), name='event-create'),
     path('events/<int:pk>/update/', views.EventUpdate.as_view(), name='event-update'),

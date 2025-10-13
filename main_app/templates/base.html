@@ -8,11 +8,13 @@
     <title>Event Planners</title>
     <link rel="stylesheet" href="{% static 'css/variables.css' %}" />
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    {% block head %}{% endblock %}
+    {% block head %}
+
+    {% endblock %}
   </head>
   <body>
     <header class="main-header">
-      <input id="nav-toggle" class="nav-toggle" type="checkbox" aria-label="Toggle navigation">
+      <input id="nav-toggle" class="nav-toggle" type="checkbox" aria-label="Toggle navigation" />
       <div class="bar">
         <a href="/" class="brand-wordmark" aria-label="Events Planner - Home">
           <span>E</span><span>v</span><span>e</span><span>n</span><span>t</span><span>s</span>
@@ -23,8 +25,12 @@
         <nav class="nav-desktop">
           <ul>
             {% if user.is_authenticated %}
-              <li><a href="{% url 'my-events' %}">My Events</a></li>
-              <li><a href="{% url 'event-create' %}">Reserve an Event</a></li>
+              <li>
+                <a href="{% url 'my-events' %}">My Events</a>
+              </li>
+              <li>
+                <a href="{% url 'event-create' %}">Reserve an Event</a>
+              </li>
             {% endif %}
           </ul>
         </nav>
@@ -33,35 +39,39 @@
           {% if user.is_authenticated %}
             <form method="post" action="{% url 'logout' %}" class="desktop-auth">
               {% csrf_token %}
-              <button type="submit" class="btn btn-ghost btn-sm">Logout</button>
+              <button type="submit" class="base-btn base-btn-sm">Logout</button>
             </form>
-          <label for="nav-toggle" class="hamburger"><span></span><span></span><span></span></label>
+            <label for="nav-toggle" class="hamburger"><span></span><span></span><span></span></label>
           {% else %}
-            <a href="{% url 'login' %}" class="btn desktop-auth login-btn">Login</a>
+            <a href="{% url 'login' %}" class="base-btn login-btn">Login</a>
           {% endif %}
         </div>
       </div>
 
-      <nav class="nav-mobile">
-        <ul>
-          {% if user.is_authenticated %}
-            <li><a href="{% url 'my-events' %}">My Events</a></li>
-            <li><a href="{% url 'event-create' %}">Reserve an Event</a></li>
+      {% if user.is_authenticated %}
+        <nav class="nav-mobile">
+          <ul>
+            <li>
+              <a href="{% url 'my-events' %}">My Events</a>
+            </li>
+            <li>
+              <a href="{% url 'event-create' %}">Reserve an Event</a>
+            </li>
             <li>
               <form method="post" action="{% url 'logout' %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-ghost">Logout</button>
+                <button type="submit" class="base-btn base-btn-sm">Logout</button>
               </form>
             </li>
-          {% else %}
-            <li><a href="{% url 'login' %}" class="btn login-btn">Login</a></li>
-          {% endif %}
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      {% endif %}
     </header>
 
     <main class="page">
-      {% block content %}{% endblock %}
+      {% block content %}
+
+      {% endblock %}
     </main>
 
     <footer class="main-footer">

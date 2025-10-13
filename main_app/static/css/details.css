@@ -51,15 +51,14 @@ h1 {
 }
 
 .description {
-    font-size: 17px;
+    font-size: 16px;
     color: var(--black);
     margin-bottom: 20px;
 }
 
 .event-details {
     text-align: center;
-    /* margin: 0 30px; */
-    font-size: 15px;
+    font-size: 14px;
     color: var(--black);
 }
 
@@ -78,6 +77,10 @@ h1 {
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600px;
+}
+
+.form-actions .btn {
+  min-width: 100px;
 }
 
 @media (max-width: 700px) {
@@ -100,7 +103,7 @@ h1 {
     }
 
     .description {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .card-details{
