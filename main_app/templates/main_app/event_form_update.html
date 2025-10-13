@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/event-form.css' %}">
+{% endblock %}
+{% block content %}
+<div class="auth-container">
+    <div class="form-container">
+        <h1 class="title">Edit Event</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <table>
+                {% for field in form %}
+                <tr>
+                    <th>{{ field.label_tag }}</th>
+                    <td>
+                        {% if field.name == "theme_images" %}
+                            {% if field.value%}
+                                <img src="{{ field.value.url }}" alt="choosen theme image" class="theme_img" >
+                            {% endif %}
+                            <input type="file" name="{{ field.html_name }}">
+                        {% else %}
+                            {{ field }}
+                        {% endif %}
+                        {% if field.help_text %}
+                        <div class="tip-box">{{ field.help_text }}</div>
+                        {% endif %}
+                        {% for error in field.errors %}
+                        <div class="errormessage">{{ error }}</div>
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
