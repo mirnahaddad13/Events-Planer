@@ -1,7 +1,37 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% load static %}
+
 {% block head %}
-<link rel="stylesheet" href="{% static 'css/cssFileName' %}">
+<link rel="stylesheet" href="{% static 'css/details.css' %}">
 {% endblock %}
+
 {% block content %}
+<div class="details-card">
+   
+    <div class="card-content">
+        <h1>{{event.title}}</h1>
+        <hr class="underline">
+
+        <p class="description">{{event.description}}</p>
+
+        <div class="event-details">
+            <p><strong>📍 Location:</strong> {{event.location}}</p>
+            <p><strong>🗓 Start:</strong> {{event.start_date}}</p>
+             <p><strong>⏰ End:</strong> {{event.end_date}}</p>
+             <p><strong>👥 Attendees:</strong> {{event.attendees_count}}</p>
+            <p><strong>🎨 Theme Color:</strong> {{event.theme_colors}}</p>
+        {% if event.theme_images %}
+            <p><strong>🎨 your preferred theme:</strong> </p>
+            <img class="theme-img" src="{{ event.theme_images.url }}" alt="{{ event.title }}"> </p>
+
+        {% endif %}
+        </div>
+
+       <div class="form-actions">
+            <a href="{% url 'event-update' event.pk %}" class="btn edit-btn">Edit</a>
+            <a href="{% url 'event-delete' event.pk %}" class="btn delete-btn">Delete</a>
+        </div>
+    </div>
+
+</div>
 {% endblock %}
