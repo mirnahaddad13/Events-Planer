@@ -92,6 +92,7 @@ class EventCreate(LoginRequiredMixin,CreateView):
 class EventUpdate(LoginRequiredMixin, UpdateView):
     model = Event
     form_class = EventForm
+    template_name = 'main_app/event_form_update.html'
 
     def get_queryset(self):
         return Event.objects.filter(user=self.request.user)

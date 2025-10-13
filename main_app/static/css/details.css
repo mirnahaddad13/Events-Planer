@@ -35,6 +35,48 @@ main {
 
     padding: 25px;
 }
+.event-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 12px 16px 16px;
+    border-top: 1px solid var(--border);
+} 
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.btn-ghost {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--olive);
+}
+
+.btn-ghost:hover {
+    background: rgba(75, 83, 32, 0.08);
+}
+
+.btn-danger {
+    background: transparent;
+    border-color: rgba(208, 2, 27, 0.3);
+    color: var(--error-color);
+}
+
+.btn-danger:hover {
+    background: rgba(208, 2, 27, 0.08);
+}
 
 h1 {
     font-size: 30px;
@@ -70,14 +112,7 @@ h1 {
     margin-top: 25px;
 }
 
-.btn {
-    display: inline-block;
-    padding: 10px 10px;
-    margin: 5px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600px;
-}
+
 
 .form-actions .btn {
   min-width: 100px;
