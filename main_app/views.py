@@ -18,8 +18,7 @@ from django.shortcuts import redirect
 
 
 User = get_user_model()
-
-
+    
 def home(request):
   return render(request,'home.html')
 
@@ -105,7 +104,7 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
         # Block update if current event starts within 1 day
         if event.start_date < timezone.now() + timedelta(days=1):
             messages.error(request, 'You cannot edit this event less than 1 day before it starts.')
-            return redirect('event-details', event_id=event.pk)
+            return redirect('event-details', pk=event.pk)
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -142,7 +141,7 @@ class EventDelete(LoginRequiredMixin, DeleteView):
         return Event.objects.filter(user=self.request.user)
 
     def dispatch(self, request, *args, **kwargs):
-        event = self.get_object()
+        event = self.get_object()  # 404s if not owner
         # Block delete if event starts within 1 day
         if event.start_date < timezone.now() + timedelta(days=1):
             messages.error(request, 'You cannot delete this event less than 1 day before it starts.')

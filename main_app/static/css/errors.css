@@ -1,0 +1,22 @@
+.error-page {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.error-page h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--olive);
+}
+
+.error-page p {
+  color: var(--ink);
+  margin: 20px 0;
+}
+
+.error-page .btn {
+  background-color: var(--gold);
+  color: var(--white);
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+}
