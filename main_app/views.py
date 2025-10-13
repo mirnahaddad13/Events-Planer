@@ -13,9 +13,7 @@ from django.contrib.auth import get_user_model
 from django.views.generic import DetailView
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
-
-
-
+from django.contrib.admin.views.decorators import staff_member_required
 
 User = get_user_model()
     
@@ -96,12 +94,10 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
     form_class = EventForm
 
     def get_queryset(self):
-        # Only allow the owner to edit
         return Event.objects.filter(user=self.request.user)
 
     def dispatch(self, request, *args, **kwargs):
         event = self.get_object()
-        # Block update if current event starts within 1 day
         if event.start_date < timezone.now() + timedelta(days=1):
             messages.error(request, 'You cannot edit this event less than 1 day before it starts.')
             return redirect('event-details', pk=event.pk)
@@ -112,26 +108,18 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
         start = form.cleaned_data.get('start_date')
         end = form.cleaned_data.get('end_date')
 
-        # No past dates
         if start and start < now:
             form.add_error('start_date', 'Start date/time cannot be in the past.')
         if end and end < now:
             form.add_error('end_date', 'End date/time cannot be in the past.')
-
-        # Maintain the 1-day rule even for the new proposed start
         if start and start < now + timedelta(days=1):
             form.add_error('start_date', 'You cannot set the start time to less than 1 day from now.')
-
-        # End must be after start
         if start and end and end <= start:
             form.add_error('end_date', 'End date/time must be after the start date/time.')
-
         if form.errors:
             return self.form_invalid(form)
 
-        form.instance.user = self.request.user
         return super().form_valid(form)
-
 class EventDelete(LoginRequiredMixin, DeleteView):
     model = Event
     success_url = '/events/'
@@ -150,4 +138,12 @@ class EventDelete(LoginRequiredMixin, DeleteView):
 
 
 
-
+@staff_member_required  
+def client_events(request):
+    # All events created by non-staff (clients), newest first
+    events = (
+        Event.objects.select_related('user')
+        .filter(user__is_staff=False)
+        .order_by('start_date')
+    )
+    return render(request, 'events/client_events.html', {'events': events})

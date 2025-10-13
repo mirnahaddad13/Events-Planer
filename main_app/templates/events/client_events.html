@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/client-events.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <section class="client-events-page">
+    <div class="events-header">
+      <h1 class="page-title">Client Events</h1>
+    </div>
+
+    {% if events %}
+      <div class="client-events-grid">
+        {% for event in events %}
+          <article class="client-event-card">
+            <div class="event-card-header">
+              <h2 class="event-title">{{ event.title }}</h2>
+              <p class="event-owner">by {{ event.user.username }}</p>
+            </div>
+
+            <div class="event-card-body">
+              <p class="event-description">{{ event.description|default:'No description provided.' }}</p>
+              <ul class="event-details">
+                <li>
+                  <strong>Location:</strong> {{ event.location }}
+                </li>
+                <li>
+                  <strong>Start:</strong> {{ event.start_date|date:'M d, Y H:i' }}
+                </li>
+                <li>
+                  <strong>End:</strong> {{ event.end_date|date:'M d, Y H:i' }}
+                </li>
+                <li>
+                  <strong>Attendees:</strong> {{ event.attendees_count }}
+                </li>
+              </ul>
+            </div>
+
+            <div class="event-card-footer">
+              <a href="{% url 'event-details' event.pk %}" class="btn btn-view">View Details</a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="no-events">
+        <img src="{% static 'images/empty.svg' %}" alt="No events" class="empty-img" />
+        <h2>No client events found</h2>
+        <p>Once clients start reserving events, they will appear here.</p>
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -1,7 +1,6 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -18,7 +17,7 @@ urlpatterns = [
     path('events/create/', views.EventCreate.as_view(), name='event-create'),
     path('events/<int:pk>/update/', views.EventUpdate.as_view(), name='event-update'),
     path('events/<int:pk>/delete/', views.EventDelete.as_view(), name='event-delete'),
-
+    path('client-events/', views.client_events, name='client-events'),
  ]
 
 #only serves uploaded media files (like user images) during development.

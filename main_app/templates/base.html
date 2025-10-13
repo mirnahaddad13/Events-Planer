@@ -28,6 +28,11 @@
               <li>
                 <a href="{% url 'my-events' %}">My Events</a>
               </li>
+              {% if user.is_staff or user.is_superuser %}
+                <li>
+                  <a href="{% url 'client-events' %}">Client Events</a>
+                </li>
+              {% endif %}
               <li>
                 <a href="{% url 'event-create' %}">Reserve an Event</a>
               </li>
@@ -54,6 +59,11 @@
             <li>
               <a href="{% url 'my-events' %}">My Events</a>
             </li>
+            {% if user.is_staff or user.is_superuser %}
+              <li>
+                <a href="{% url 'client-events' %}">Client Events</a>
+              </li>
+            {% endif %}
             <li>
               <a href="{% url 'event-create' %}">Reserve an Event</a>
             </li>
