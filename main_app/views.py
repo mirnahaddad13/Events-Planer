@@ -134,7 +134,7 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
 
 class EventDelete(LoginRequiredMixin, DeleteView):
     model = Event
-    success_url = '/home'
+    success_url = '/events/'
 
     def get_queryset(self):
         # Only allow the owner to delete

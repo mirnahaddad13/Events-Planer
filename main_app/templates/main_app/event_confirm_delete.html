@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/delete.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="delete-page">
+  <div class="delete-card">
+    <h1 class="delete-title">Delete this event?</h1>
+    <p class="delete-desc">
+      You’re about to permanently remove <span class="event-name">{{ object.title }}</span>.
+      This action can’t be undone.
+    </p>
+
+    <form method="POST" class="delete-actions">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Yes, delete it</button>
+      <a href="{% url 'my-events' %}" class="btn btn-ghost">Keep the event</a>
+    </form>
+  </div>
+</section>
+{% endblock %}

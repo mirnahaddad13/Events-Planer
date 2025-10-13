@@ -1,0 +1,87 @@
+@import url('variables.css');
+
+.delete-page {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--paper);
+  padding: 1rem;
+}
+
+.delete-card {
+  background: var(--white);
+  border: 1px solid color-mix(in oklab, var(--gold) 35%, #ddd);
+  border-radius: 18px;
+  padding: 2rem 2.5rem;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+}
+
+.delete-title {
+  font-size: clamp(1.5rem, 2vw, 1.9rem);
+  font-weight: 700;
+  color: var(--olive-900);
+  margin-bottom: 0.8rem;
+}
+
+.delete-desc {
+  font-size: 1rem;
+  color: var(--ink);
+  margin-bottom: 1.8rem;
+  line-height: 1.5;
+}
+
+.event-name {
+  color: var(--black);
+  font-weight: 600;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--gold);
+  text-transform: capitalize;
+}
+
+.delete-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+    min-width: 160px;
+}
+
+
+.btn-ghost {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--olive);
+}
+
+.btn-ghost:hover {
+    background: rgba(75, 83, 32, 0.08);
+}
+
+.btn-danger {
+    background: transparent;
+    border-color: rgba(208, 2, 27, 0.3);
+    color: var(--error-color);
+}
+
+.btn-danger:hover {
+    background: rgba(208, 2, 27, 0.08);
+}
