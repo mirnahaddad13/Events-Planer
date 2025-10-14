@@ -10,7 +10,17 @@
     <div class="events-header">
       <h1 class="page-title">Client Events</h1>
     </div>
-
+    {% if events|length > 1 %}
+          <div class="sort-container">
+      <form method="get" action="">
+        <label for="sort">Sort by date:</label>
+        <select name="sort" id="sort" onchange="this.form.submit()">
+          <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Ascending</option>
+          <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Descending</option>
+        </select>
+      </form>
+    </div>
+    {% endif %}
     {% if events %}
       <div class="client-events-grid">
         {% for event in events %}

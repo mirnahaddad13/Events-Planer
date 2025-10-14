@@ -65,8 +65,15 @@ class CustomLoginView(LoginView):
 
 @login_required
 def event_index(request):
-  events = Event.objects.filter(user=request.user).order_by('start_date')
-  return render(request, 'events/index.html', {'events': events})
+    sort_order = request.GET.get('sort', 'asc')  
+    if sort_order == 'desc':
+        events = Event.objects.filter(user=request.user).order_by('-start_date')
+    else:
+        events = Event.objects.filter(user=request.user).order_by('start_date')
+    return render(request, 'events/index.html', {
+        'events': events,
+        'sort_order': sort_order
+    })
 
 class EventDetail(LoginRequiredMixin, DetailView):
     model = Event
@@ -161,9 +168,12 @@ class EventDelete(LoginRequiredMixin, DeleteView):
 @staff_member_required  
 def client_events(request):
     # All events created by non-staff (clients), newest first
-    events = (
-        Event.objects.select_related('user')
-        .filter(user__is_staff=False)
-        .order_by('start_date')
-    )
-    return render(request, 'events/client_events.html', {'events': events})
+    sort_order = request.GET.get('sort', 'asc')
+    if sort_order == 'desc':
+        events = Event.objects.select_related('user').filter(user__is_staff=False).order_by('-start_date')
+    else:
+        events = Event.objects.select_related('user').filter(user__is_staff=False).order_by('start_date')
+    return render(request, 'events/client_events.html', {
+        'events': events,
+        'sort_order': sort_order
+    })

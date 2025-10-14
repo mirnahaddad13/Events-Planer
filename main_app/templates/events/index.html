@@ -18,7 +18,17 @@
         Create Event
       </a>
     </header>
-
+    {% if events %}
+      <div class="sort-container">
+        <form method="get" action="">
+          <label for="sort">Sort by date:</label>
+          <select name="sort" id="sort" onchange="this.form.submit()">
+            <option value="asc"  {% if sort_order == 'asc' %}selected{% endif %}>Ascending</option>
+            <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Descending</option>
+          </select>
+        </form>
+      </div>
+    {% endif %}
     {% if events %}
       <div class="events-grid">
         {% for e in events %}

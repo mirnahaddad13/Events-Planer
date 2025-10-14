@@ -277,3 +277,33 @@ a:focus-visible,
     outline-offset: 2px;
     border-radius: 10px;
 }
+.sort-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.sort-container label {
+  margin-right: 0.5rem;
+  font-weight: 600; 
+  color: var(--olive); 
+}
+
+.sort-container select {
+  padding: 6px 12px; 
+  border-radius: 8px; 
+  border: 1px solid var(--gold-300); 
+  font-size: 0.95rem;
+  color: var(--ink);
+  transition: filter 0.2s ease;
+}
+
+.sort-container select:hover {
+  filter: brightness(1.05);
+}
+
+.sort-container select:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 4px var(--gold-300);
+}
