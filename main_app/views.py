@@ -2,11 +2,8 @@ from django.shortcuts import render,redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render,redirect
-from .forms import CustomUserCreationForm, EventForm
-from .models import Event
-from datetime import timedelta
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -14,8 +11,32 @@ from django.views.generic import DetailView
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.contrib.admin.views.decorators import staff_member_required
+from .forms import CustomUserCreationForm, EventForm
+from .models import Event
+from datetime import timedelta
 
 User = get_user_model()
+    
+def _is_privileged(user):
+    """Staff or superusers are considered privileged."""
+    return user.is_staff or user.is_superuser
+class StaffOrOwnerQuerysetMixin(UserPassesTestMixin):
+    """
+    - Staff/superuser: can access ALL events.
+    - Normal user: only their own events.
+    """
+
+    def get_queryset(self):
+        user = self.request.user
+        if _is_privileged(user):
+            return Event.objects.all()
+        return Event.objects.filter(user=user)
+
+    def test_func(self):
+        # Provides a 403 if user fails this test
+        obj = self.get_object()
+        u = self.request.user
+        return _is_privileged(u) or obj.user_id == u.id
     
 def home(request):
   return render(request,'home.html')
@@ -28,7 +49,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()                
             login(request, user)
-            return redirect('home')
+            return redirect('/events')
     else:
         form = CustomUserCreationForm()
 
@@ -53,7 +74,7 @@ class EventDetail(LoginRequiredMixin, DetailView):
 
     def get_queryset(self):
         user = self.request.user
-        if user.is_staff or user.is_superuser:
+        if _is_privileged(user):
             # Admins can view all events
             return Event.objects.all()
         # Regular users only see their own events
@@ -94,14 +115,13 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
     form_class = EventForm
     template_name = 'main_app/event_form_update.html'
 
-    def get_queryset(self):
-        return Event.objects.filter(user=self.request.user)
-
     def dispatch(self, request, *args, **kwargs):
-        event = self.get_object()
-        if event.start_date < timezone.now() + timedelta(days=1):
-            messages.error(request, 'You cannot edit this event less than 1 day before it starts.')
-            return redirect('event-details', pk=event.pk)
+        # Customers (not-admin) cannot edit if event starts within 1 day
+        if not _is_privileged(request.user):
+            event = self.get_object()
+            if event.start_date < timezone.now() + timedelta(days=1):
+                messages.error(request, 'You cannot edit this event less than 1 day before it starts.')
+                return redirect('event-details', pk=event.pk)
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
@@ -109,34 +129,33 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
         start = form.cleaned_data.get('start_date')
         end = form.cleaned_data.get('end_date')
 
+        if start and end and end <= start:
+            form.add_error('end_date', 'End date/time must be after the start date/time.')
         if start and start < now:
             form.add_error('start_date', 'Start date/time cannot be in the past.')
         if end and end < now:
             form.add_error('end_date', 'End date/time cannot be in the past.')
-        if start and start < now + timedelta(days=1):
-            form.add_error('start_date', 'You cannot set the start time to less than 1 day from now.')
-        if start and end and end <= start:
-            form.add_error('end_date', 'End date/time must be after the start date/time.')
+        
+        if not _is_privileged(self.request.user):
+            if start and start < now + timedelta(days=1):
+                form.add_error('start_date', 'You cannot set the start time to less than 1 day from now.')
         if form.errors:
             return self.form_invalid(form)
-
+        
         return super().form_valid(form)
+
 class EventDelete(LoginRequiredMixin, DeleteView):
     model = Event
     success_url = '/events/'
 
-    def get_queryset(self):
-        # Only allow the owner to delete
-        return Event.objects.filter(user=self.request.user)
-
     def dispatch(self, request, *args, **kwargs):
-        event = self.get_object()  # 404s if not owner
-        # Block delete if event starts within 1 day
-        if event.start_date < timezone.now() + timedelta(days=1):
-            messages.error(request, 'You cannot delete this event less than 1 day before it starts.')
-            return redirect('home')
+        # Customers (non-staff) cannot delete if event starts within 1 day
+        if not _is_privileged(request.user):
+            event = self.get_object()
+            if event.start_date < timezone.now() + timedelta(days=1):
+                messages.error(request, 'You cannot delete this event less than 1 day before it starts.')
+                return redirect('event-details', pk=event.pk)
         return super().dispatch(request, *args, **kwargs)
-
 
 
 @staff_member_required  
