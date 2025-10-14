@@ -85,6 +85,7 @@ As a user, I want to see my events displayed in a modern card-based design showi
 
 As a user, I want the website to be responsive so that I can manage my events from my phone or laptop.
 
+
 ## challenges:
 Choosing the suitable assets for the project, the theme colors and some merging conflicts
 
