@@ -117,6 +117,12 @@ h1 {
 .form-actions .btn {
   min-width: 100px;
 }
+.error-message{
+
+    margin-top: 10px;
+    font-size: 14px;
+    color: var(--error-color);
+}
 
 @media (max-width: 700px) {
     body {

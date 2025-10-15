@@ -119,5 +119,12 @@
         <p>&copy; 2025 Events Planner. All rights reserved.</p>
       </div>
     </footer>
+    {% if messages %}
+  <script>
+    {% for message in messages %}
+      alert(“{{ message|escapejs }}“);
+    {% endfor %}
+  </script>
+{% endif %}
   </body>
 </html>
