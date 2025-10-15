@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render,redirect
 from django.utils import timezone
 from django.contrib import messages
@@ -20,23 +20,13 @@ User = get_user_model()
 def _is_privileged(user):
     """Staff or superusers are considered privileged."""
     return user.is_staff or user.is_superuser
-class StaffOrOwnerQuerysetMixin(UserPassesTestMixin):
-    """
-    - Staff/superuser: can access ALL events.
-    - Normal user: only their own events.
-    """
-
-    def get_queryset(self):
-        user = self.request.user
-        if _is_privileged(user):
-            return Event.objects.all()
-        return Event.objects.filter(user=user)
-
-    def test_func(self):
-        # Provides a 403 if user fails this test
-        obj = self.get_object()
-        u = self.request.user
-        return _is_privileged(u) or obj.user_id == u.id
+class AwareDateTimeMixin:
+    def _normalize_dt(self, dt):
+        if not dt:
+            return dt
+        if timezone.is_naive(dt):
+            return timezone.make_aware(dt, timezone.get_current_timezone())
+        return dt
     
 def home(request):
   return render(request,'home.html')
@@ -87,15 +77,15 @@ class EventDetail(LoginRequiredMixin, DetailView):
         # Regular users only see their own events
         return Event.objects.filter(user=user)
     
-class EventCreate(LoginRequiredMixin,CreateView):
+class EventCreate(LoginRequiredMixin, AwareDateTimeMixin, CreateView):
   model = Event
   form_class = EventForm
   template_name = 'main_app/event_form.html'
   success_url = '/events/'
   def form_valid(self, form):
-        now = timezone.now()
-        start = form.cleaned_data.get('start_date')
-        end = form.cleaned_data.get('end_date')
+        now= timezone.now()
+        start= self._normalize_dt(form.cleaned_data.get('start_date'))
+        end= self._normalize_dt(form.cleaned_data.get('end_date'))
 
         # Must reserve at least 5 hours in advance
         if start and start < now + timedelta(hours=5):
@@ -117,7 +107,7 @@ class EventCreate(LoginRequiredMixin,CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class EventUpdate(LoginRequiredMixin, UpdateView):
+class EventUpdate(LoginRequiredMixin, AwareDateTimeMixin, UpdateView):
     model = Event
     form_class = EventForm
     template_name = 'main_app/event_form_update.html'
@@ -133,8 +123,10 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         now = timezone.now()
-        start = form.cleaned_data.get('start_date')
-        end = form.cleaned_data.get('end_date')
+
+        # Normalize potentially naive datetimes coming from the form
+        start = self._normalize_dt(form.cleaned_data.get('start_date'))
+        end = self._normalize_dt(form.cleaned_data.get('end_date'))
 
         if start and end and end <= start:
             form.add_error('end_date', 'End date/time must be after the start date/time.')
