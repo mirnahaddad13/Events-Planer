@@ -126,7 +126,7 @@ class EventUpdate(LoginRequiredMixin, UpdateView):
         # Customers (not-admin) cannot edit if event starts within 1 day
         if not _is_privileged(request.user):
             event = self.get_object()
-            if event.start_date < timezone.now() + timedelta(days=1):
+            if event.start_date <= timezone.now() + timedelta(days=1):
                 messages.error(request, 'You cannot edit this event less than 1 day before it starts.')
                 return redirect('event-details', pk=event.pk)
         return super().dispatch(request, *args, **kwargs)

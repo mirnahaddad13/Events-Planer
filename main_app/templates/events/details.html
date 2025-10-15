@@ -31,6 +31,11 @@
             <a href="{% url 'event-update' event.pk %}" class="btn btn-ghost">Edit</a>
             <a href="{% url 'event-delete' event.pk %}" class="btn btn-danger">Delete</a>
         </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-message"> {{message}}</div>
+            {% endfor %}
+        {% endif %}
     </div>
 
 </div>
