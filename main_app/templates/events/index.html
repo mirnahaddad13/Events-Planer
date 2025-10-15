@@ -18,7 +18,7 @@
         Create Event
       </a>
     </header>
-    {% if events %}
+   {% if events|length > 1 %}
       <div class="sort-container">
         <form method="get" action="">
           <label for="sort">Sort by date:</label>
