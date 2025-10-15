@@ -45,6 +45,9 @@ python manage.py runserver
 # Create a superuser for admin access:
 python manage.py createsuperuser
 
+# Run unit testing 
+python manage.py test main_app.tests.test_views
+
 ## user stories:
 **Authentication & Accounts**
 As a new user, I want to sign up with my name, email, and password so that I can create and manage my own events.
