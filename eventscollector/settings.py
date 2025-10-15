@@ -107,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Amman' 
 
 USE_I18N = True
 
@@ -127,4 +127,3 @@ LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = '/events' 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-TIME_ZONE = 'Asia/Amman' 
