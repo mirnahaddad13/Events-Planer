@@ -6,13 +6,25 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero" style="background-image:url('{% static "images/table-candles.png" %}')">
-  <span class="hero-overlay"></span>
+<section class="hero">
+  <div class="hero-media" aria-hidden="true">
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="{% static 'images/table-candles.png' %}"
+    >
+      <source src="{% static 'videos/hero.mp4' %}" type="video/mp4">
+    </video>
+  </div>
   <div class="hero-inner">
     <div class="hero-copy">
       <h1>Effortless events, beautifully done.</h1>
       <p>Create refined weddings, parties, and gatherings with a few simple steps.</p>
-        <a href="{% url 'event-create' %}" class="btn">Get started</a>
+      <a href="{% url 'event-create' %}" class="btn">Get started</a>
     </div>
     <div class="hero-visual">
       <img src="{% static 'images/sparles.png' %}" alt="Celebration moments">
