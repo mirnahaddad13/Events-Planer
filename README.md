@@ -1,4 +1,4 @@
-# Events-Planer
+# Event-Planners
 
 # Project Overview and Description:
  The idea of ​​our project is to help people organize their events by managing them and holding them at the time they choose and in the atmosphere they prefer.
