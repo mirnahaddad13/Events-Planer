@@ -22,7 +22,7 @@
 - **Events List:** Sorted by creation date with easy navigation and admins can see all client events 
 
 ## setup:
-git clone https://github.com/{{username}}/Events-Planer.git
+git clone https://github.com/mirnahaddad13/Events-Planer.git
 cd Events-Planer
 **MaxOs/Linux**
 python3 -m venv venv
